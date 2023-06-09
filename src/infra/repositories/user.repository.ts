@@ -13,11 +13,15 @@ export class DatabaseUserRepository implements UserRepository {
   }
 
   async signIn(data: Omit<ISignIn, 'password'>): Promise<User> {
-    const { emailOrUsername } = data;
+    const { emailOrUsername, id } = data;
 
     return this.prismaService.user.findFirst({
       where: {
-        OR: [{ email: emailOrUsername }, { username: emailOrUsername }],
+        OR: [
+          { email: emailOrUsername },
+          { username: emailOrUsername },
+          { id: id },
+        ],
       },
     });
   }
@@ -27,5 +31,25 @@ export class DatabaseUserRepository implements UserRepository {
       data: { last_login: new Date() },
       where: { id: user_id },
     });
+  }
+
+  async getProfile(
+    id: string,
+  ): Promise<Omit<User, 'password' | 'created_at' | 'updated_at'>> {
+    return this.prismaService.user.findUnique({
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        avatar_url: true,
+        last_login: true,
+        phone: true,
+      },
+      where: { id },
+    });
+  }
+
+  async updateProfile(id: string, data: Prisma.UserUpdateInput): Promise<User> {
+    return this.prismaService.user.update({ data, where: { id } });
   }
 }

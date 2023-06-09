@@ -1,12 +1,12 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-05-29T15:08:45.152Z",
+  "__export_date": "2023-05-29T18:26:11.113Z",
   "__export_source": "insomnia.desktop.app:v2023.2.2",
   "resources": [
     {
-      "_id": "req_da68b4b3da494decbfac524d745cc2f0",
-      "parentId": "fld_7b0ca0be84e34f2e92de527bcf28cd3e",
+      "_id": "req_f5df371b84894959ac43fac09562599a",
+      "parentId": "fld_4aab872aaf5944d796ef7ccf4505f3b2",
       "modified": 1685211716024,
       "created": 1685211716024,
       "url": "{{ _.baseUrl }}/auth/signUp",
@@ -36,8 +36,8 @@
       "_type": "request"
     },
     {
-      "_id": "fld_7b0ca0be84e34f2e92de527bcf28cd3e",
-      "parentId": "wrk_e10e34d7a6a84b52a5103d9ab1b34476",
+      "_id": "fld_4aab872aaf5944d796ef7ccf4505f3b2",
+      "parentId": "wrk_d8d3f474f3ee4ed19655722acba09291",
       "modified": 1685211712210,
       "created": 1685211712210,
       "name": "Auth",
@@ -48,18 +48,18 @@
       "_type": "request_group"
     },
     {
-      "_id": "wrk_e10e34d7a6a84b52a5103d9ab1b34476",
+      "_id": "wrk_d8d3f474f3ee4ed19655722acba09291",
       "parentId": null,
-      "modified": 1685372593477,
-      "created": 1685372593477,
+      "modified": 1685372928825,
+      "created": 1685372928825,
       "name": "Finance",
       "description": "",
       "scope": "design",
       "_type": "workspace"
     },
     {
-      "_id": "req_018ecdffa12c4631b3a0c98136d8fb8d",
-      "parentId": "fld_7b0ca0be84e34f2e92de527bcf28cd3e",
+      "_id": "req_f0711f65e4334136af6572829d726281",
+      "parentId": "fld_4aab872aaf5944d796ef7ccf4505f3b2",
       "modified": 1685211854762,
       "created": 1685211854762,
       "url": "{{ _.baseUrl }}/auth/signIn",
@@ -89,8 +89,8 @@
       "_type": "request"
     },
     {
-      "_id": "req_c19df40b01314e498f82ccf6ba275edd",
-      "parentId": "fld_7b0ca0be84e34f2e92de527bcf28cd3e",
+      "_id": "req_86e765db12154b6caa38cfd61c3023f3",
+      "parentId": "fld_4aab872aaf5944d796ef7ccf4505f3b2",
       "modified": 1685320461883,
       "created": 1685320461883,
       "url": "{{ _.baseUrl }}/auth/logout",
@@ -120,8 +120,8 @@
       "_type": "request"
     },
     {
-      "_id": "req_85445639a34048e5be26b92e87e0cef9",
-      "parentId": "fld_7b0ca0be84e34f2e92de527bcf28cd3e",
+      "_id": "req_8822888626ac4ccb9f6388190337ed25",
+      "parentId": "fld_4aab872aaf5944d796ef7ccf4505f3b2",
       "modified": 1685361344341,
       "created": 1685361344341,
       "url": "{{ _.baseUrl }}/auth/profile",
@@ -129,7 +129,14 @@
       "description": "",
       "method": "GET",
       "body": {},
-      "parameters": [],
+      "parameters": [
+        {
+          "id": "pair_7285ac3671f741278b0c19010b3fbc29",
+          "name": "id",
+          "value": "34b2b1af-1a8a-419c-9ee8-13b682b12b02",
+          "description": ""
+        }
+      ],
       "headers": [
         {
           "id": "pair_90ee0bac382f48ca8a9f7df09eb66521",
@@ -140,7 +147,7 @@
       ],
       "authentication": {
         "type": "bearer",
-        "token": "{% response 'body', 'req_f364f8c8417b46e0a241068b4c7f3302', 'b64::JC5kYXRhLnRva2Vu::46b', 'never', 60 %}",
+        "token": "{% response 'body', 'req_f0711f65e4334136af6572829d726281', 'b64::JC5kYXRhLnRva2Vu::46b', 'never', 60 %}",
         "prefix": "Bearer"
       },
       "metaSortKey": -1685211715924,
@@ -154,8 +161,8 @@
       "_type": "request"
     },
     {
-      "_id": "env_62c56ad54d5749929ec13308215cef6a",
-      "parentId": "wrk_e10e34d7a6a84b52a5103d9ab1b34476",
+      "_id": "env_c1af33a2d41846f58126d4522837deb0",
+      "parentId": "wrk_d8d3f474f3ee4ed19655722acba09291",
       "modified": 1685211704299,
       "created": 1685211704299,
       "name": "Base Environment",
@@ -173,10 +180,10 @@
       "_type": "environment"
     },
     {
-      "_id": "spc_9bcbb35de33745d39f5ebac9443b45d3",
-      "parentId": "wrk_e10e34d7a6a84b52a5103d9ab1b34476",
-      "modified": 1685372593477,
-      "created": 1685372593477,
+      "_id": "spc_b1698c72c04e4258876df68e4aef5ded",
+      "parentId": "wrk_d8d3f474f3ee4ed19655722acba09291",
+      "modified": 1685372928826,
+      "created": 1685372928826,
       "fileName": "Finance",
       "contents": "",
       "contentType": "yaml",

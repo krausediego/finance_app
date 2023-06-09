@@ -1,18 +1,40 @@
-import { Body, Controller, Get, Inject, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Post,
+  Put,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiBody,
   ApiOperation,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { UseCaseProxy } from 'src/infra/usecases-proxy/usecases-proxy';
-import { UseCasesProxyModule } from 'src/infra/usecases-proxy/usecases-proxy.module';
-import { SignUpUseCases } from 'src/usecases/auth/sign-up.usecases';
-import { AuthLogoutDto, AuthSignInDto, AuthSignUpDto } from './auth.dto';
-import { SignInUseCases } from 'src/usecases/auth/sign-in.usecases';
-import { LogoutUseCases } from 'src/usecases/auth/logout.usecases';
+import { AuthUseCasesProxyModule } from 'src/infra/usecases-proxy/auth/usecases-proxy.module';
+import {
+  AuthLogoutDto,
+  AuthSignInDto,
+  AuthSignUpDto,
+  GetProfileDto,
+  UpdatePasswordDto,
+  UpdateProfileDto,
+} from './auth.dto';
 import { AuthGuard } from 'src/infra/guards/auth.guard';
+import {
+  SignUpUseCases,
+  SignInUseCases,
+  LogoutUseCases,
+  GetProfileUseCases,
+  UpdateProfileUseCases,
+} from 'src/usecases/auth';
+import { ChangePasswordUseCases } from 'src/usecases/auth/change-password-usecases';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -23,12 +45,18 @@ import { AuthGuard } from 'src/infra/guards/auth.guard';
 @ApiResponse({ status: 500, description: 'Internal error' })
 export class AuthController {
   constructor(
-    @Inject(UseCasesProxyModule.SIGN_UP_USECASES_PROXY)
+    @Inject(AuthUseCasesProxyModule.SIGN_UP_USECASES_PROXY)
     private readonly signUpUsecaseProxy: UseCaseProxy<SignUpUseCases>,
-    @Inject(UseCasesProxyModule.SIGN_IN_USECASES_PROXY)
+    @Inject(AuthUseCasesProxyModule.SIGN_IN_USECASES_PROXY)
     private readonly signInUsecaseProxy: UseCaseProxy<SignInUseCases>,
-    @Inject(UseCasesProxyModule.LOGOUT_USECASES_PROXY)
+    @Inject(AuthUseCasesProxyModule.LOGOUT_USECASES_PROXY)
     private readonly logoutUsecaseProxy: UseCaseProxy<LogoutUseCases>,
+    @Inject(AuthUseCasesProxyModule.GET_PROFILE_USECASES_PROXY)
+    private readonly getProfileUsecaseProxy: UseCaseProxy<GetProfileUseCases>,
+    @Inject(AuthUseCasesProxyModule.UPDATE_PROFILE_USECASES_PROXY)
+    private readonly updateProfileUsecaseProxy: UseCaseProxy<UpdateProfileUseCases>,
+    @Inject(AuthUseCasesProxyModule.UPDATE_PASSWORD_USECASES_PROXY)
+    private readonly updatePasswordUsecaseProxy: UseCaseProxy<ChangePasswordUseCases>,
   ) {}
 
   @Post('signUp')
@@ -62,9 +90,33 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Get('profile')
   @ApiBearerAuth()
-  // @ApiBody()
-  @ApiOperation({ description: 'profile' })
-  getProfile() {
-    return { ok: 'ok' };
+  @ApiQuery({ type: GetProfileDto })
+  @ApiOperation({ description: 'get profile' })
+  getProfile(@Query() data: GetProfileDto) {
+    const { id } = data;
+    return this.getProfileUsecaseProxy.getInstance().execute(id);
+  }
+
+  @UseGuards(AuthGuard)
+  @Put('profile')
+  @ApiBearerAuth()
+  @ApiBody({ type: UpdateProfileDto })
+  @ApiOperation({ description: 'update profile' })
+  updateProfile(@Body() data: UpdateProfileDto, @Query() query: any) {
+    const { id } = query;
+    return this.updateProfileUsecaseProxy.getInstance().execute(id, data);
+  }
+
+  @UseGuards(AuthGuard)
+  @Put('change-password')
+  @ApiBearerAuth()
+  @ApiBody({ type: UpdatePasswordDto })
+  @ApiOperation({ description: 'update password' })
+  updatePassword(@Body() data: UpdatePasswordDto, @Query() query: any) {
+    const { id } = query;
+    const { oldPassword, newPassword } = data;
+    return this.updatePasswordUsecaseProxy
+      .getInstance()
+      .execute({ id, oldPassword, newPassword });
   }
 }

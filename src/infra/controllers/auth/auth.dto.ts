@@ -47,3 +47,43 @@ export class AuthLogoutDto {
   @IsString()
   readonly id: string;
 }
+
+export class GetProfileDto {
+  @ApiProperty({ required: true })
+  @IsString()
+  readonly id?: string;
+}
+
+export class UpdateProfileDto {
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  readonly username?: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  readonly email?: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  readonly phone?: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  readonly avatar_url?: string;
+}
+
+export class UpdatePasswordDto {
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  readonly oldPassword: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  readonly newPassword: string;
+}

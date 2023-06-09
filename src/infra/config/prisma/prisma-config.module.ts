@@ -7,7 +7,7 @@ import { PrismaModule } from 'nestjs-prisma';
       isGlobal: true,
       useFactory: () => ({
         prismaOptions: {
-          log: ['query', 'error', 'warn'],
+          log: ['error', 'warn'],
         },
       }),
     }),

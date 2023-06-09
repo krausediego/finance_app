@@ -28,7 +28,12 @@ export class SignInUseCases {
       this.exception.forbiddenException({ message: 'User not found.' });
     }
 
-    const passwordMatches = this.bcryptService.compare(password, user.password);
+    const passwordMatches = await this.bcryptService.compare(
+      password,
+      user.password,
+    );
+
+    console.log('PASSWORD MATCHES', passwordMatches);
 
     if (!passwordMatches) {
       this.exception.badRequestException({ message: 'Passwords not matches.' });
@@ -43,7 +48,7 @@ export class SignInUseCases {
 
       await this.tokenCache.setToken(id, token);
 
-      return { token };
+      return { token, id };
     }
 
     const token = this.jwt.createExpirationToken(
@@ -54,6 +59,6 @@ export class SignInUseCases {
 
     await this.tokenCache.setExpirationToken(id, expires, token);
 
-    return { token };
+    return { token, id };
   }
 }
